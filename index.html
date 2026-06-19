@@ -80,15 +80,29 @@
     .card-desc { font-size: 0.82rem; color: var(--muted); margin-top: 8px; line-height: 1.5; }
     .card-tag { display: inline-block; margin-top: 12px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; background: rgba(46,125,50,0.25); color: var(--green); }
 
-    .find-us-wrap { background: var(--dark); padding: 0; }
-    .find-us-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 32px; margin-top: 32px; text-align: center; }
-    .find-us-icon { font-size: 2.4rem; margin-bottom: 14px; }
-    .find-us-text { font-size: 1rem; color: var(--text); line-height: 1.6; max-width: 480px; margin: 0 auto 20px; }
-    .find-us-socials { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .schedule-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; margin-top: 32px; }
+    .schedule-list { background: var(--glass); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; }
+    .schedule-item { padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.06); border-left: 3px solid transparent; }
+    .schedule-item:last-child { border-bottom: none; }
+    .schedule-item.active { background: rgba(196,30,30,0.12); border-left-color: var(--green); }
+    .schedule-day { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+    .schedule-place { color: var(--gold); font-size: 0.95rem; margin-bottom: 4px; }
+    .schedule-time { font-size: 0.82rem; color: var(--muted); font-family: monospace; }
+    .info-stack { display: flex; flex-direction: column; gap: 1px; }
+    .info-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.08); padding: 18px 24px; }
+    .info-card:first-child { border-radius: 14px 14px 0 0; }
+    .info-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .info-value { font-size: 1rem; font-weight: 600; }
+    .info-value a { color: var(--gold); text-decoration: none; }
+    .stat-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.08); border-radius: 0 0 14px 14px; padding: 22px 24px; }
+    .stat-num-big { font-family: 'Bebas Neue', sans-serif; font-size: 2.6rem; color: var(--gold); line-height: 1; margin-bottom: 8px; }
+    .stat-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+    @media (max-width: 720px) { .schedule-grid { grid-template-columns: 1fr; } }
     .social-btn { display: flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.04em; text-transform: uppercase; transition: transform 0.15s, opacity 0.2s; }
     .social-btn:hover { transform: translateY(-2px); opacity: 0.9; }
     .social-ig { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: #fff; }
     .social-fb { background: #1877F2; color: #fff; }
+    .find-us-cta { text-align: center; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.08); }
 
     .order-wrap { background: var(--dark2); padding: 80px 0; }
     .order-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
@@ -128,7 +142,7 @@
   <div class="hero-content">
     <div class="hero-eyebrow">🌮 Food Truck Familiar · Fresno, CA</div>
     <h1 class="hero-title">Chelita's<br/><span>Taqueria</span></h1>
-    <p class="hero-sub">Sabor casero sobre ruedas. Síguenos en redes para saber dónde estamos hoy — tacos, burritos y antojitos mexicanos hechos con cariño de familia.</p>
+    <p class="hero-sub">Sabor casero sobre ruedas. Mismos lugares cada semana — tacos, burritos y antojitos mexicanos hechos con cariño de familia.</p>
     <div class="hero-ctas">
       <a class="btn-primary" href="#menu">Ver Menú</a>
       <a class="btn-outline" href="tel:5594770113">📞 Llamar</a>
@@ -137,22 +151,22 @@
 </div>
 
 <div class="proof">
-  🚚 Food Truck Familiar — Síguenos en <span>Instagram</span> para saber dónde estamos hoy
+  📍 <span>1,057</span> personas nos encontraron en Google Maps esta semana — $0 en ads
 </div>
 
 <div class="stats-wrap">
   <div class="stats-inner">
     <div>
-      <div class="stat-num">4.4★</div>
-      <div class="stat-label">Rating de clientes</div>
+      <div class="stat-num">1,057</div>
+      <div class="stat-label">Vistas en Google Maps / semana</div>
+    </div>
+    <div>
+      <div class="stat-num">4</div>
+      <div class="stat-label">Ubicaciones fijas semanales</div>
     </div>
     <div>
       <div class="stat-num">100%</div>
       <div class="stat-label">Familiar y casero</div>
-    </div>
-    <div>
-      <div class="stat-num">📍</div>
-      <div class="stat-label">Ubicación cambia diario</div>
     </div>
     <div>
       <div class="stat-num">$0</div>
@@ -254,15 +268,58 @@
 
 <section id="location" class="find-us-wrap">
   <div class="section-label">¿Dónde Estamos?</div>
-  <h2 class="section-title">Síguenos para<br/>Encontrarnos</h2>
-  <p class="section-sub">Somos un food truck familiar — cambiamos de ubicación. Sigue nuestras redes sociales para ver dónde estamos hoy.</p>
-  <div class="find-us-card">
-    <div class="find-us-icon">📍🚚</div>
-    <div class="find-us-text">Publicamos nuestra ubicación del día todas las mañanas. ¡No te quedes sin tus tacos favoritos!</div>
-    <div class="find-us-socials">
-      <a class="social-btn social-ig" href="https://www.instagram.com/chelitastaqueria" target="_blank" rel="noopener">📷 Instagram</a>
-      <a class="social-btn social-fb" href="https://www.facebook.com/Chelitas-Taqueria-1563590630519074/" target="_blank" rel="noopener">👍 Facebook</a>
+  <h2 class="section-title">Dónde Nos<br/>Encontramos</h2>
+  <p class="section-sub">Estamos en los mismos lugares cada semana — encuentra tu día favorito y ven a saludarnos.</p>
+
+  <div class="schedule-grid">
+    <div class="schedule-list">
+      <div class="schedule-item active">
+        <div class="schedule-day">Lunes – Sábado</div>
+        <div class="schedule-place">2021 N Fresno St</div>
+        <div class="schedule-time">10:00am – 3:00pm</div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-day">Martes – Viernes</div>
+        <div class="schedule-place">Community Regional Medical Hospital</div>
+        <div class="schedule-time">11:00am – 2:00pm</div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-day">Martes</div>
+        <div class="schedule-place">Riverpark Farmers Market</div>
+        <div class="schedule-time">5:00pm – 9:00pm</div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-day">Miércoles – Jueves</div>
+        <div class="schedule-place">Tesoro Viejo</div>
+        <div class="schedule-time">5:00pm – 8:00pm</div>
+      </div>
     </div>
+
+    <div class="info-stack">
+      <div class="info-card">
+        <div class="info-label">Instagram</div>
+        <div class="info-value"><a href="https://www.instagram.com/chelitastaqueria" target="_blank" rel="noopener">@chelitastaqueria</a></div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Ciudad</div>
+        <div class="info-value">Fresno, California</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Horario</div>
+        <div class="info-value" style="font-weight:400; font-size:0.9rem; color:var(--muted);">Se actualiza semanalmente — síguenos para alertas de ubicación diaria</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num-big">1,057</div>
+        <div class="stat-desc">personas nos encontraron en Google Maps esta semana — sin gastar un dólar en ads. Ese es el poder de un perfil premium de Google Maps.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="find-us-cta">
+    <div class="hero-eyebrow">¿Tienes Hambre?</div>
+    <h2 class="section-title" style="margin-bottom:14px;">Encuéntranos Hoy</h2>
+    <p class="section-sub" style="margin:0 auto 28px;">Síguenos en Instagram para actualizaciones de ubicación diaria, especiales y más.</p>
+    <a class="social-btn social-ig" href="https://www.instagram.com/chelitastaqueria" target="_blank" rel="noopener">📷 Seguir en Instagram</a>
   </div>
 </section>
 
