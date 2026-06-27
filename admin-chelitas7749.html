@@ -11,14 +11,13 @@
     header{background:#111;border-bottom:2px solid var(--green);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
     .logo{font-size:1.1rem;font-weight:700;color:var(--gold)}
     .logo span{color:#888;font-weight:400;font-size:.85rem;margin-left:8px}
-    .tabs{display:flex;gap:0;border-bottom:1px solid #222;background:#111;position:sticky;top:57px;z-index:40}
+    .tabs{display:flex;border-bottom:1px solid #222;background:#111;position:sticky;top:57px;z-index:40}
     .tab-btn{flex:1;padding:14px 8px;background:none;border:none;color:#888;font-size:.85rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;text-align:center}
     .tab-btn.active{color:var(--green);border-bottom-color:var(--green)}
     .panel{display:none;padding:20px}
     .panel.active{display:block}
     .section-title{font-size:1.1rem;font-weight:700;margin-bottom:16px;color:#fff}
-    /* Cards */
-    .item-card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;margin-bottom:12px;position:relative}
+    .item-card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;margin-bottom:12px}
     .item-card.hidden-item{opacity:.45}
     .item-name{font-weight:700;font-size:1rem;margin-bottom:4px}
     .item-meta{font-size:.8rem;color:#888;margin-bottom:10px}
@@ -30,11 +29,15 @@
     .btn-hide{background:#2a2a1a;color:var(--gold);border:1px solid var(--gold)}
     .btn-delete{background:#2a1a1a;color:#ef5350;border:1px solid #ef5350}
     .btn-primary{background:var(--green);color:#fff}
-    .btn-danger{background:var(--red);color:#fff}
     .btn-secondary{background:#2a2a2a;color:#ccc}
-    /* Form */
-    .form-wrap{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:20px;margin-bottom:20px}
-    .form-wrap h3{font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--gold)}
+    .add-btn{width:100%;padding:14px;background:#1e3a1e;border:1px dashed var(--green);border-radius:12px;color:var(--green);font-size:.9rem;font-weight:700;cursor:pointer;margin-bottom:20px;transition:background .2s}
+    .add-btn:hover{background:#254d25}
+    .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-bg.open{display:flex}
+    .modal{background:#1a1a1a;border:1px solid #333;border-radius:16px;padding:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
+    .modal h3{font-size:1.1rem;font-weight:700;margin-bottom:20px;color:var(--gold)}
+    .modal-actions{display:flex;gap:10px;margin-top:20px}
+    .modal-actions .btn{flex:1;padding:12px}
     .field{margin-bottom:14px}
     label{display:block;font-size:.78rem;font-weight:600;color:#888;margin-bottom:5px;letter-spacing:.04em;text-transform:uppercase}
     input,select,textarea{width:100%;background:#111;border:1px solid #333;border-radius:8px;padding:10px 14px;color:#eee;font-size:.9rem;outline:none;transition:border-color .2s;font-family:inherit}
@@ -44,21 +47,10 @@
     .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .toggle{display:flex;align-items:center;gap:10px;cursor:pointer}
     .toggle input[type=checkbox]{width:auto;accent-color:var(--green)}
-    /* Toast */
-    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#222;border:1px solid var(--green);border-radius:10px;padding:12px 24px;font-size:.9rem;font-weight:600;color:#fff;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#222;border:1px solid var(--green);border-radius:10px;padding:12px 24px;font-size:.9rem;font-weight:600;color:#fff;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
     .toast.show{opacity:1}
-    /* Add btn */
-    .add-btn{width:100%;padding:14px;background:#1e3a1e;border:1px dashed var(--green);border-radius:12px;color:var(--green);font-size:.9rem;font-weight:700;cursor:pointer;margin-bottom:20px;transition:background .2s}
-    .add-btn:hover{background:#254d25}
-    /* Modal */
-    .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
-    .modal-bg.open{display:flex}
-    .modal{background:#1a1a1a;border:1px solid #333;border-radius:16px;padding:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
-    .modal h3{font-size:1.1rem;font-weight:700;margin-bottom:20px;color:var(--gold)}
-    .modal-actions{display:flex;gap:10px;margin-top:20px}
-    .modal-actions .btn{flex:1;padding:12px}
     .empty{text-align:center;padding:40px 20px;color:#555;font-size:.9rem}
-    .video-name{font-size:.75rem;color:#888;margin-top:4px}
+    .video-hint{font-size:.75rem;color:#666;margin-top:4px}
   </style>
 </head>
 <body>
@@ -69,40 +61,36 @@
 </header>
 
 <div class="tabs">
-  <button class="tab-btn active" onclick="showPanel('menu')">🍽 Menú</button>
-  <button class="tab-btn" onclick="showPanel('featured')">⭐ Destacados</button>
-  <button class="tab-btn" onclick="showPanel('schedule')">📍 Horario</button>
+  <button class="tab-btn active" onclick="showPanel('menu',this)">🍽 Menú</button>
+  <button class="tab-btn" onclick="showPanel('featured',this)">⭐ Destacados</button>
+  <button class="tab-btn" onclick="showPanel('schedule',this)">📍 Horario</button>
 </div>
 
-<!-- MENU PANEL -->
 <div class="panel active" id="panel-menu">
   <div class="section-title">Platillos del Menú</div>
   <button class="add-btn" onclick="openModal('menu')">+ Agregar Platillo</button>
   <div id="menu-list"><div class="empty">Cargando...</div></div>
 </div>
 
-<!-- FEATURED PANEL -->
 <div class="panel" id="panel-featured">
   <div class="section-title">Platillos Destacados (Carrusel)</div>
   <button class="add-btn" onclick="openModal('featured')">+ Agregar Destacado</button>
   <div id="featured-list"><div class="empty">Cargando...</div></div>
 </div>
 
-<!-- SCHEDULE PANEL -->
 <div class="panel" id="panel-schedule">
   <div class="section-title">Horario Semanal</div>
   <button class="add-btn" onclick="openModal('schedule')">+ Agregar Ubicación</button>
   <div id="schedule-list"><div class="empty">Cargando...</div></div>
 </div>
 
-<!-- MODAL -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <h3 id="modal-title">Agregar</h3>
     <div id="modal-body"></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-      <button class="btn btn-primary" id="modal-save" onclick="saveModal()">Guardar</button>
+      <button class="btn btn-primary" onclick="saveModal()">Guardar</button>
     </div>
   </div>
 </div>
@@ -110,98 +98,113 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const URL = 'https://jmiuwoyowqcfdymxwiuf.supabase.co';
-const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptaXV3b3lvd3FjZmR5bXh3aXVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MjA2MjAsImV4cCI6MjA5Nzk5NjYyMH0.P8PFaw0yEpihbqJ-9ztyrpGJ8QmzSMlABwlGbixRjdo';
+const SB_URL = 'https://jmiuwoyowqcfdymxwiuf.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptaXV3b3lvd3FjZmR5bXh3aXVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MjA2MjAsImV4cCI6MjA5Nzk5NjYyMH0.P8PFaw0yEpihbqJ-9ztyrpGJ8QmzSMlABwlGbixRjdo';
+const CLIENT_ID = 'chelitas'; // ← único valor que cambia por cliente
 
-const H = { 'apikey': KEY, 'Authorization': `Bearer ${KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' };
+const H = {
+  'apikey': SB_KEY,
+  'Authorization': `Bearer ${SB_KEY}`,
+  'Content-Type': 'application/json',
+  'Prefer': 'return=minimal'
+};
 
-async function db(method, table, body=null, id=null) {
-  const url = id ? `${URL}/rest/v1/${table}?id=eq.${id}` : `${URL}/rest/v1/${table}`;
-  const res = await fetch(url, { method, headers: H, body: body ? JSON.stringify(body) : null });
-  if (method === 'GET') return res.json();
-  return res.ok;
+// ── DB helpers ──────────────────────────────────────
+async function getAll(table, extra='') {
+  const url = `${SB_URL}/rest/v1/${table}?client_id=eq.${CLIENT_ID}&order=orden.asc${extra ? '&' + extra : ''}`;
+  const r = await fetch(url, { headers: H });
+  return r.json();
 }
 
+async function insert(table, body) {
+  body.client_id = CLIENT_ID;
+  const r = await fetch(`${SB_URL}/rest/v1/${table}`, { method:'POST', headers:H, body:JSON.stringify(body) });
+  return r.ok;
+}
+
+async function update(table, id, body) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}&client_id=eq.${CLIENT_ID}`, { method:'PATCH', headers:H, body:JSON.stringify(body) });
+  return r.ok;
+}
+
+async function remove(table, id) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}&client_id=eq.${CLIENT_ID}`, { method:'DELETE', headers:H });
+  return r.ok;
+}
+
+// ── Toast ───────────────────────────────────────────
 function toast(msg, ok=true) {
   const t = document.getElementById('toast');
-  t.textContent = ok ? '✅ ' + msg : '❌ ' + msg;
-  t.style.borderColor = ok ? 'var(--green)' : 'var(--red)';
+  t.textContent = (ok ? '✅ ' : '❌ ') + msg;
+  t.style.borderColor = ok ? 'var(--green)' : '#ef5350';
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// PANELS
-function showPanel(name) {
+// ── Panels ──────────────────────────────────────────
+function showPanel(name, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(`panel-${name}`).classList.add('active');
-  event.target.classList.add('active');
-  if (name === 'menu') loadMenu();
-  if (name === 'featured') loadFeatured();
-  if (name === 'schedule') loadSchedule();
+  btn.classList.add('active');
+  ({ menu: loadMenu, featured: loadFeatured, schedule: loadSchedule })[name]();
 }
 
-// MENU
+// ── MENU ────────────────────────────────────────────
 async function loadMenu() {
-  const items = await db('GET', 'menu_items?order=orden.asc,created_at.asc');
-  const list = document.getElementById('menu-list');
-  if (!items.length) { list.innerHTML = '<div class="empty">No hay platillos. Agrega el primero.</div>'; return; }
-  list.innerHTML = items.map(i => `
+  const items = await getAll('menu_items');
+  const el = document.getElementById('menu-list');
+  if (!items.length) { el.innerHTML = '<div class="empty">No hay platillos. Agrega el primero.</div>'; return; }
+  el.innerHTML = items.map(i => `
     <div class="item-card ${i.visible ? '' : 'hidden-item'}">
-      <div class="item-name">${i.nombre} ${!i.visible ? '<span style="font-size:.7rem;color:#888">(oculto)</span>' : ''}</div>
-      <div class="item-meta"><span class="item-price">$${parseFloat(i.precio).toFixed(2)}</span> · ${i.categoria}${i.descripcion ? ' · ' + i.descripcion.substring(0,40)+'...' : ''}</div>
+      <div class="item-name">${i.nombre} ${!i.visible ? '<span style="font-size:.7rem;color:#666">(oculto)</span>' : ''}</div>
+      <div class="item-meta"><span class="item-price">$${parseFloat(i.precio).toFixed(2)}</span> · ${i.categoria}</div>
       <div class="item-actions">
-        <button class="btn btn-edit" onclick="editItem('menu','${i.id}',${JSON.stringify(i).replace(/"/g,'&quot;')})">Editar</button>
+        <button class="btn btn-edit" onclick='editItem("menu","${i.id}",${JSON.stringify(i)})'>Editar</button>
         <button class="btn btn-hide" onclick="toggleVisible('menu_items','${i.id}',${i.visible})">${i.visible ? 'Ocultar' : 'Mostrar'}</button>
         <button class="btn btn-delete" onclick="deleteItem('menu_items','${i.id}')">Borrar</button>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-// FEATURED
+// ── FEATURED ────────────────────────────────────────
 async function loadFeatured() {
-  const items = await db('GET', 'featured_dishes?order=orden.asc');
-  const list = document.getElementById('featured-list');
-  if (!items.length) { list.innerHTML = '<div class="empty">No hay platillos destacados.</div>'; return; }
-  list.innerHTML = items.map(i => `
+  const items = await getAll('featured_dishes');
+  const el = document.getElementById('featured-list');
+  if (!items.length) { el.innerHTML = '<div class="empty">No hay platillos destacados.</div>'; return; }
+  el.innerHTML = items.map(i => `
     <div class="item-card ${i.visible ? '' : 'hidden-item'}">
       <div class="item-name">${i.nombre}</div>
-      <div class="item-meta"><span class="item-price">${i.precio}</span> · <span class="video-name">📹 ${i.video_url}</span></div>
+      <div class="item-meta"><span class="item-price">${i.precio}</span> · 📹 ${i.video_url}</div>
       <div class="item-actions">
-        <button class="btn btn-edit" onclick="editItem('featured','${i.id}',${JSON.stringify(i).replace(/"/g,'&quot;')})">Editar</button>
+        <button class="btn btn-edit" onclick='editItem("featured","${i.id}",${JSON.stringify(i)})'>Editar</button>
         <button class="btn btn-hide" onclick="toggleVisible('featured_dishes','${i.id}',${i.visible})">${i.visible ? 'Ocultar' : 'Mostrar'}</button>
         <button class="btn btn-delete" onclick="deleteItem('featured_dishes','${i.id}')">Borrar</button>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-// SCHEDULE
+// ── SCHEDULE ────────────────────────────────────────
 async function loadSchedule() {
-  const items = await db('GET', 'weekly_schedule?order=orden.asc');
-  const list = document.getElementById('schedule-list');
-  if (!items.length) { list.innerHTML = '<div class="empty">No hay horario cargado.</div>'; return; }
-  list.innerHTML = items.map(i => `
+  const items = await getAll('weekly_schedule');
+  const el = document.getElementById('schedule-list');
+  if (!items.length) { el.innerHTML = '<div class="empty">No hay horario cargado.</div>'; return; }
+  el.innerHTML = items.map(i => `
     <div class="item-card">
       <div class="item-name">${i.dias}</div>
       <div class="item-meta" style="color:var(--gold)">${i.ubicacion}</div>
       <div class="item-meta">${i.hora_inicio} – ${i.hora_fin}</div>
       <div class="item-actions" style="margin-top:8px">
-        <button class="btn btn-edit" onclick="editItem('schedule','${i.id}',${JSON.stringify(i).replace(/"/g,'&quot;')})">Editar</button>
+        <button class="btn btn-edit" onclick='editItem("schedule","${i.id}",${JSON.stringify(i)})'>Editar</button>
         <button class="btn btn-delete" onclick="deleteItem('weekly_schedule','${i.id}')">Borrar</button>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-// MODAL
-let modalMode = null; // 'menu' | 'featured' | 'schedule'
-let editId = null;
-
+// ── Modal forms ─────────────────────────────────────
 const forms = {
-  menu: (d={}) => `
-    <div class="field"><label>Nombre del platillo</label><input id="f-nombre" value="${d.nombre||''}" placeholder="Ej: Tacos de Asada"/></div>
+  menu: d => `
+    <div class="field"><label>Nombre</label><input id="f-nombre" value="${d.nombre||''}" placeholder="Ej: Tacos de Asada"/></div>
     <div class="form-row">
       <div class="field"><label>Precio ($)</label><input id="f-precio" type="number" step="0.01" value="${d.precio||''}" placeholder="3.00"/></div>
       <div class="field"><label>Categoría</label><select id="f-categoria">
@@ -210,48 +213,43 @@ const forms = {
         <option value="especialidades" ${d.categoria==='especialidades'?'selected':''}>Especialidades</option>
       </select></div>
     </div>
-    <div class="field"><label>Descripción (opcional)</label><textarea id="f-descripcion">${d.descripcion||''}</textarea></div>
-    <div class="field"><label>Orden (número)</label><input id="f-orden" type="number" value="${d.orden||0}"/></div>
-    <div class="field"><label class="toggle"><input type="checkbox" id="f-visible" ${d.visible!==false?'checked':''}> Visible en el sitio</label></div>
-  `,
-  featured: (d={}) => `
-    <div class="field"><label>Nombre del platillo</label><input id="f-nombre" value="${d.nombre||''}" placeholder="Ej: Jalisco Tacos"/></div>
-    <div class="field"><label>Precio (texto)</label><input id="f-precio" value="${d.precio||''}" placeholder="Ej: 3 x $13 o $12.00"/></div>
-    <div class="field"><label>Nombre del video</label><input id="f-video_url" value="${d.video_url||''}" placeholder="dish-nombre.mp4"/>
-      <div style="font-size:.75rem;color:#666;margin-top:4px">El archivo .mp4 debe estar subido al repo de GitHub</div></div>
+    <div class="field"><label>Descripción</label><textarea id="f-descripcion">${d.descripcion||''}</textarea></div>
     <div class="field"><label>Orden</label><input id="f-orden" type="number" value="${d.orden||0}"/></div>
-    <div class="field"><label class="toggle"><input type="checkbox" id="f-visible" ${d.visible!==false?'checked':''}> Visible en el carrusel</label></div>
-  `,
-  schedule: (d={}) => `
+    <div class="field"><label class="toggle"><input type="checkbox" id="f-visible" ${d.visible!==false?'checked':''}> Visible en el sitio</label></div>`,
+
+  featured: d => `
+    <div class="field"><label>Nombre</label><input id="f-nombre" value="${d.nombre||''}" placeholder="Ej: Jalisco Tacos"/></div>
+    <div class="field"><label>Precio (texto)</label><input id="f-precio" value="${d.precio||''}" placeholder="Ej: 3 x $13"/></div>
+    <div class="field"><label>Archivo de video</label><input id="f-video_url" value="${d.video_url||''}" placeholder="dish-nombre.mp4"/>
+      <div class="video-hint">El .mp4 debe estar subido al repo de GitHub</div></div>
+    <div class="field"><label>Orden</label><input id="f-orden" type="number" value="${d.orden||0}"/></div>
+    <div class="field"><label class="toggle"><input type="checkbox" id="f-visible" ${d.visible!==false?'checked':''}> Visible en carrusel</label></div>`,
+
+  schedule: d => `
     <div class="field"><label>Días</label><input id="f-dias" value="${d.dias||''}" placeholder="Ej: Lunes – Sábado"/></div>
     <div class="field"><label>Ubicación</label><input id="f-ubicacion" value="${d.ubicacion||''}" placeholder="Ej: 2021 N Fresno St"/></div>
     <div class="form-row">
       <div class="field"><label>Hora inicio</label><input id="f-hora_inicio" value="${d.hora_inicio||''}" placeholder="10:00am"/></div>
       <div class="field"><label>Hora fin</label><input id="f-hora_fin" value="${d.hora_fin||''}" placeholder="3:00pm"/></div>
     </div>
-    <div class="field"><label>Orden</label><input id="f-orden" type="number" value="${d.orden||0}"/></div>
-  `
+    <div class="field"><label>Orden</label><input id="f-orden" type="number" value="${d.orden||0}"/></div>`
 };
 
+let modalMode = null, editId = null;
+
 function openModal(mode, id=null, data={}) {
-  modalMode = mode;
-  editId = id;
+  modalMode = mode; editId = id;
   document.getElementById('modal-title').textContent = id ? 'Editar' : 'Agregar';
   document.getElementById('modal-body').innerHTML = forms[mode](data);
   document.getElementById('modalBg').classList.add('open');
 }
 
-function editItem(mode, id, data) {
-  openModal(mode, id, data);
-}
-
-function closeModal() {
-  document.getElementById('modalBg').classList.remove('open');
-  modalMode = null; editId = null;
-}
+function editItem(mode, id, data) { openModal(mode, id, data); }
+function closeModal() { document.getElementById('modalBg').classList.remove('open'); modalMode=null; editId=null; }
 
 async function saveModal() {
-  let body = {};
+  let body = {}, ok = false;
+
   if (modalMode === 'menu') {
     body = {
       nombre: document.getElementById('f-nombre').value.trim(),
@@ -262,9 +260,8 @@ async function saveModal() {
       visible: document.getElementById('f-visible').checked
     };
     if (!body.nombre || isNaN(body.precio)) { toast('Nombre y precio son obligatorios', false); return; }
-    const ok = editId ? await db('PATCH','menu_items',body,editId) : await db('POST','menu_items',body);
+    ok = editId ? await update('menu_items', editId, body) : await insert('menu_items', body);
     if (ok) { toast('Platillo guardado'); closeModal(); loadMenu(); }
-    else toast('Error al guardar', false);
 
   } else if (modalMode === 'featured') {
     body = {
@@ -275,9 +272,8 @@ async function saveModal() {
       visible: document.getElementById('f-visible').checked
     };
     if (!body.nombre || !body.video_url) { toast('Nombre y video son obligatorios', false); return; }
-    const ok = editId ? await db('PATCH','featured_dishes',body,editId) : await db('POST','featured_dishes',body);
+    ok = editId ? await update('featured_dishes', editId, body) : await insert('featured_dishes', body);
     if (ok) { toast('Destacado guardado'); closeModal(); loadFeatured(); }
-    else toast('Error al guardar', false);
 
   } else if (modalMode === 'schedule') {
     body = {
@@ -288,23 +284,23 @@ async function saveModal() {
       orden: parseInt(document.getElementById('f-orden').value)||0
     };
     if (!body.dias || !body.ubicacion) { toast('Días y ubicación son obligatorios', false); return; }
-    const table = 'weekly_schedule';
-    const ok = editId ? await db('PATCH',table,body,editId) : await db('POST',table,body);
+    ok = editId ? await update('weekly_schedule', editId, body) : await insert('weekly_schedule', body);
     if (ok) { toast('Horario guardado'); closeModal(); loadSchedule(); }
-    else toast('Error al guardar', false);
   }
+
+  if (!ok) toast('Error al guardar', false);
 }
 
 async function toggleVisible(table, id, current) {
-  const ok = await db('PATCH', table, { visible: !current }, id);
-  if (ok) { toast(current ? 'Platillo ocultado' : 'Platillo visible'); loadMenu(); loadFeatured(); }
+  const ok = await update(table, id, { visible: !current });
+  if (ok) { toast(current ? 'Ocultado' : 'Visible ahora'); loadMenu(); loadFeatured(); }
   else toast('Error', false);
 }
 
 async function deleteItem(table, id) {
   if (!confirm('¿Seguro que quieres borrar este elemento?')) return;
-  const res = await fetch(`${URL}/rest/v1/${table}?id=eq.${id}`, { method: 'DELETE', headers: H });
-  if (res.ok) {
+  const ok = await remove(table, id);
+  if (ok) {
     toast('Eliminado');
     if (table === 'menu_items') loadMenu();
     else if (table === 'featured_dishes') loadFeatured();
@@ -312,10 +308,7 @@ async function deleteItem(table, id) {
   } else toast('Error al eliminar', false);
 }
 
-// Close modal on bg click
 document.getElementById('modalBg').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
-
-// Initial load
 loadMenu();
 </script>
 </body>
